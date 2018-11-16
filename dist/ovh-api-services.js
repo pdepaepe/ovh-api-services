@@ -1738,6 +1738,43 @@ angular.module("ovh-api-services").service("OvhApiCloudProjectRegionV6", ["$reso
 
 }]);
 
+angular.module("ovh-api-services").service("OvhApiCloudProjectRegionFlavor", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        v6: function () {
+            return $injector.get("OvhApiCloudProjectRegionFlavorV6");
+        }
+    };
+}]);
+
+angular.module("ovh-api-services").service("OvhApiCloudProjectRegionFlavorV6", ["$resource", "$cacheFactory", function ($resource, $cacheFactory) {
+    "use strict";
+
+    var queryCache = $cacheFactory("OvhApiCloudProjectRegionFlavorV6Query");
+    var cache = $cacheFactory("OvhApiCloudProjectRegionFlavorV6");
+
+    var flavorResource = $resource("/cloud/project/:serviceName/region/:regionName/flavor/:flavorId", {
+        serviceName: "@serviceName",
+        regionName: "@regionName",
+        flavorId: "@flavorId"
+    }, {
+        get: { method: "GET", cache: cache },
+        query: { method: "GET", cache: queryCache, isArray: true }
+    });
+
+    flavorResource.resetCache = function () {
+        cache.removeAll();
+    };
+
+    flavorResource.resetQueryCache = function () {
+        queryCache.removeAll();
+    };
+
+    return flavorResource;
+
+}]);
+
 angular.module("ovh-api-services").service("OvhApiCloudProjectRegionWorkflowBackup", ["$injector", function ($injector) {
     "use strict";
 
@@ -6594,10 +6631,24 @@ angular.module("ovh-api-services").service("OvhApiEmailExchange", ["$injector", 
 angular.module("ovh-api-services").service("OvhApiEmailExchangeService", ["$injector", function ($injector) {
     "use strict";
     return {
+        v6: function () {
+            return $injector.get("OvhApiEmailExchangeServiceV6");
+        },
         v7: function () {
             return $injector.get("OvhApiEmailExchangeServiceV7");
         }
     };
+}]);
+
+angular.module("ovh-api-services").service("OvhApiEmailExchangeServiceV6", ["$resource", function ($resource) {
+    "use strict";
+
+    var exchangeEndpoint = $resource("/email/exchange/:organizationName/service/:exchangeService", {
+        organizationName: "@organizationName",
+        exchangeService: "@exchangeService"
+    });
+
+    return exchangeEndpoint;
 }]);
 
 angular.module("ovh-api-services").service("OvhApiEmailExchangeServiceV7", ["apiv7", function (apiv7) {
