@@ -35,10 +35,8 @@
     "jasmine-core": "^2.6.4",
     "matchdep": "^0.3.0"
   },
-  "dependencies": {
-    "lodash": "^3.10.1"
-  },
   "peerDependencies": {
+    "lodash": "^3.10.1",
     "ovh-angular-apiv7": "^1.2.8"
   }
 }
