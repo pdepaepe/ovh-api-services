@@ -1,0 +1,8 @@
+<label data-ng-if="$ctrl.withChoice" data-ng-attr-for="sound-choice-{{ sound.soundId }}" data-ng-bind="sound.name" class="ng-binding ng-scope" for="sound-choice-15307">0033257520309_toneOnHold</label>
+
+
+
+<td class="align-middle">
+                <!-- ngIf: !$ctrl.withChoice -->
+                <!-- ngIf: $ctrl.withChoice --><label data-ng-if="$ctrl.withChoice" data-ng-attr-for="sound-choice-{{ sound.soundId }}" data-ng-bind="sound.name" class="ng-binding ng-scope" for="sound-choice-274836">1117.wav</label><!-- end ngIf: $ctrl.withChoice -->
+            </td>

@@ -90,6 +90,9 @@ angular.module("ovh-api-services").service("OvhApiTelephony", function ($injecto
         },
         Task: function () {
             return $injector.get("OvhApiTelephonyTask");
+        },
+        Sounds: function () {
+            return $injector.get("OvhApiTelephonySounds");
         }
     };
 });
