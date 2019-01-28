@@ -9214,6 +9214,104 @@ angular.module("ovh-api-services").service("OvhApiMeContactV7", ["$resource", "$
     return userContactResource;
 }]);
 
+angular.module("ovh-api-services").service("OvhApiMeCreditBalance", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        v6: function () {
+            return $injector.get("OvhApiMeCreditBalanceV6");
+        },
+        Movement: function () {
+            return $injector.get("OvhApiMeCreditBalanceMovement");
+        }
+    };
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeCreditBalanceV6", ["$resource", "$cacheFactory", function ($resource, $cacheFactory) {
+    "use strict";
+
+    var queryCache = $cacheFactory("OvhApiMeCreditBalanceQueryV6");
+    var cache = $cacheFactory("OvhApiMeCreditBalanceV6");
+
+    return $resource("/me/credit/balance/:balanceName", {
+        balanceName: "@balanceName"
+    }, {
+        get: { method: "GET", cache: cache },
+        query: {
+            method: "GET",
+            cache: queryCache,
+            isArray: true,
+            queryParams: {
+                type: "@type"
+            }
+        }
+    });
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeCreditBalanceMovement", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        v6: function () {
+            return $injector.get("OvhApiMeCreditBalanceMovementV6");
+        }
+    };
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeCreditBalanceMovementV6", ["$resource", "$cacheFactory", function ($resource, $cacheFactory) {
+    "use strict";
+
+    var queryCache = $cacheFactory("OvhApiMeCreditBalanceMovementQueryV6");
+    var cache = $cacheFactory("OvhApiMeCreditBalanceMovementV6");
+
+    return $resource("/me/credit/balance/:balanceName/movement/:movementId", {
+        balanceName: "@balanceName",
+        movementId: "@movementId"
+    }, {
+        get: { method: "GET", cache: cache },
+        query: {
+            method: "GET",
+            cache: queryCache,
+            isArray: true
+        }
+    });
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeCreditCode", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        v6: function () {
+            return $injector.get("OvhApiMeCreditCodeV6");
+        }
+    };
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeCreditCodeV6", ["$resource", function ($resource) {
+    "use strict";
+
+    return $resource("/me/credit/code");
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeCredit", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        Balance: function () {
+            return $injector.get("OvhApiMeCreditBalance");
+        },
+        Code: function () {
+            return $injector.get("OvhApiMeCreditCode");
+        }
+    };
+
+}]);
+
 angular.module("ovh-api-services").service("OvhApiMeDebtAccountDebtV6", ["$resource", "$cacheFactory", function ($resource, $cacheFactory) {
     "use strict";
 
@@ -9729,6 +9827,9 @@ angular.module("ovh-api-services").service("OvhApiMe", ["$injector", function ($
         },
         Payment: function () {
             return $injector.get("OvhApiMePayment");
+        },
+        Credit: function () {
+            return $injector.get("OvhApiMeCredit");
         }
     };
 }]);
