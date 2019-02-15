@@ -73,6 +73,9 @@ angular.module("ovh-api-services").service("OvhApiMe", function ($injector) {
         Payment: function () {
             return $injector.get("OvhApiMePayment");
         },
+        Consumption: function () {
+            return $injector.get("OvhApiMeConsumption");
+        },
         Credit: function () {
             return $injector.get("OvhApiMeCredit");
         }
