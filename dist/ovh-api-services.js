@@ -9128,6 +9128,110 @@ angular.module("ovh-api-services").service("OvhApiMeBilling", ["$injector", func
     };
 }]);
 
+angular.module("ovh-api-services").service("OvhApiMeConsumption", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        Usage: function () {
+            return $injector.get("OvhApiMeConsumptionUsage");
+        }
+    };
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeConsumptionUsageCurrent", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        v6: function () {
+            return $injector.get("OvhApiMeConsumptionUsageCurrentV6");
+        }
+    };
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeConsumptionUsageCurrentV6", ["$cacheFactory", "$resource", function ($cacheFactory, $resource) {
+    "use strict";
+
+    var cache = $cacheFactory("OvhApiMeConsumptionUsageCurrentV6");
+
+    return $resource("/me/consumption/usage/current", {}, {
+        get: { method: "GET", cache: cache, isArray: true }
+    });
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeConsumptionUsageForecast", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        v6: function () {
+            return $injector.get("OvhApiMeConsumptionUsageForecastV6");
+        }
+    };
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeConsumptionUsageForecastV6", ["$cacheFactory", "$resource", function ($cacheFactory, $resource) {
+    "use strict";
+
+    var cache = $cacheFactory("OvhApiMeConsumptionUsageForecastV6");
+
+    return $resource("/me/consumption/usage/forecast", {}, {
+        get: { method: "GET", cache: cache, isArray: true }
+    });
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeConsumptionUsageHistory", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        v6: function () {
+            return $injector.get("OvhApiMeConsumptionUsageHistoryV6");
+        }
+    };
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeConsumptionUsageHistoryV6", ["$cacheFactory", "$resource", function ($cacheFactory, $resource) {
+    "use strict";
+
+    var cache = $cacheFactory("OvhApiMeConsumptionUsageHistoryV6");
+
+    return $resource("/me/consumption/usage/history", {
+
+    }, {
+        get: {
+            method: "GET",
+            cache: cache,
+            isArray: true,
+            params: {
+                beginDate: "@beginDate",
+                endDate: "@endDate"
+            }
+        }
+    });
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiMeConsumptionUsage", ["$injector", function ($injector) {
+    "use strict";
+
+    return {
+        Current: function () {
+            return $injector.get("OvhApiMeConsumptionUsageCurrent");
+        },
+        Forecast: function () {
+            return $injector.get("OvhApiMeConsumptionUsageForecast");
+        },
+        History: function () {
+            return $injector.get("OvhApiMeConsumptionUsageHistory");
+        }
+    };
+
+}]);
+
 angular.module("ovh-api-services").service("OvhApiMeContact", ["$injector", function ($injector) {
     "use strict";
 
@@ -9827,6 +9931,9 @@ angular.module("ovh-api-services").service("OvhApiMe", ["$injector", function ($
         },
         Payment: function () {
             return $injector.get("OvhApiMePayment");
+        },
+        Consumption: function () {
+            return $injector.get("OvhApiMeConsumption");
         },
         Credit: function () {
             return $injector.get("OvhApiMeCredit");
@@ -13908,6 +14015,102 @@ angular.module("ovh-api-services").service("OvhApiScreenshot", ["$injector", "$c
         },
         resetCache: cache.removeAll,
         cache: cache
+    };
+}]);
+
+angular.module("ovh-api-services").service("OvhApiServiceRenewForecast", ["$injector", function ($injector) {
+    "use strict";
+    return {
+        v6: function () {
+            return $injector.get("OvhApiServiceRenewForecastV6");
+        }
+    };
+}]);
+
+angular.module("ovh-api-services").service("OvhApiServiceRenewForecastV6", ["$cacheFactory", "$resource", function ($cacheFactory, $resource) {
+    "use strict";
+    var queryCache = $cacheFactory("OvhApiServiceRenewForecastV6");
+
+    return $resource("/service/:serviceId/renew/forecast", {
+        serviceId: "@serviceId"
+    }, {
+        query: {
+            method: "GET",
+            isArray: true,
+            cache: queryCache
+        }
+    });
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiServiceRenew", ["$injector", function ($injector) {
+    "use strict";
+    return {
+        Forecast: function () {
+            return $injector.get("OvhApiServiceRenewForecast");
+        }
+    };
+}]);
+
+angular.module("ovh-api-services").service("OvhApiService", ["$injector", function ($injector) {
+    "use strict";
+    return {
+        v6: function () {
+            return $injector.get("OvhApiServiceV6");
+        },
+        Renew: function () {
+            return $injector.get("OvhApiServiceRenew");
+        }
+    };
+}]);
+
+angular.module("ovh-api-services").service("OvhApiServiceV6", ["$resource", function ($resource) {
+    "use strict";
+
+    return $resource("/service/:serviceId", {
+        serviceId: "@serviceId"
+    });
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiServicesBillingInvoices", ["$injector", function ($injector) {
+    "use strict";
+    return {
+        v6: function () {
+            return $injector.get("OvhApiServicesBillingInvoicesV6");
+        }
+    };
+}]);
+
+angular.module("ovh-api-services").service("OvhApiServicesBillingInvoicesV6", ["$cacheFactory", "$resource", function ($cacheFactory, $resource) {
+    "use strict";
+
+    var cache = $cacheFactory("OvhApiServicesBillingInvoicesV6");
+    var queryCache = $cacheFactory("OvhApiServicesBillingInvoicesQueryCacheV6");
+
+    return $resource("/services/:serviceId/billing/invoices/:id", {
+        serviceId: "@serviceId",
+        id: "@id"
+    }, {
+        query: {
+            method: "GET",
+            isArray: true,
+            cache: queryCache
+        },
+        get: {
+            method: "GET",
+            cache: cache
+        }
+    });
+
+}]);
+
+angular.module("ovh-api-services").service("OvhApiServicesBilling", ["$injector", function ($injector) {
+    "use strict";
+    return {
+        Invoices: function () {
+            return $injector.get("OvhApiServicesBillingInvoices");
+        }
     };
 }]);
 
